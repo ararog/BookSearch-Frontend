@@ -1,0 +1,49 @@
+[% META title = 'Search Results' %]
+
+[% BLOCK stylesheet %]
+  <link rel="stylesheet" type="text/css" href="/booksearch/css/booksearch.results.css">
+[% END %]
+  
+[% BLOCK content %]
+
+  <div id="main">
+	<div class="facets">
+	  [% 
+		PROCESS search/facet.tt
+		  name = 'author',
+		  title = 'Filter by author'
+		  source = facets.author,
+		  page = page,
+		  query = c.request.query_parameters.q 
+	  %]
+	</div>
+
+	<div class="results">
+	  [% 
+		PROCESS search/feedback.tt 
+		  page = page, 
+		  hitCount = hitCount, 
+		  documentsPerPage = 10 
+	  %]
+
+	  <br/>
+
+	  <div class="hits">
+		[% FOREACH result IN results %]
+		  [% PROCESS search/document.tt  doc = result %]
+		  <br/>
+		[% END %]
+	  </div>
+
+	  [% 
+		PROCESS search/paginator.tt  
+		  numberOfPages = numberOfPages, 
+		  currentPage = page, 
+		  pageRange = 5,
+		  query = c.request.query_parameters.q
+	  %]
+	</div>
+  </div>
+[% END %]
+
+[% PROCESS base.tt %]

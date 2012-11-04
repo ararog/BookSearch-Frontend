@@ -1,0 +1,11 @@
+[% IF source.total > 0 %]
+  <div id="facet" class="facet">
+	<div id="title" class="title">
+	  [% title %]
+	</div>
+	[% FOREACH facetTerm IN source.terms %]
+	  <a href="#">[% facetTerm.term %]</a>
+	  <br/>
+	[% END %]  
+  </div>
+[% END %]

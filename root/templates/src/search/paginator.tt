@@ -1,0 +1,59 @@
+[%
+page      = currentPage 
+minPage   = page - pageRange
+maxPage   = page + pageRange
+firstPage = "F"
+lastPage  = "F"
+
+pageIndex = 1
+endPage   = 1
+%]
+
+[% IF page > 1 %]
+   [% firstPage = "T" %]
+[% END %]
+
+[% IF page != numberOfPages %]
+   [% lastPage  = "T" %]
+[% END %]
+
+[% IF numberOfPages < maxPage %]
+   [% maxPage = numberOfPages %]
+[% ELSE %]
+   [% maxPage = maxPage %]
+[% END %]
+
+[% IF minPage < 1 %]
+   [% pageIndex = 1 %]
+[% ELSE %]
+   [% pageIndex = minPage %]
+[% END %]
+
+[% IF numberOfPages < maxPage %]
+   [% endPage = maxPage - numberOfPages %]
+[% ELSE %]
+   [% endPage = maxPage %]
+[% END %]
+
+[% IF numberOfPages > 1 %]
+
+  <div class="paginator">
+	[% IF firstPage == "T" %]
+	  <a href="search?q=[% query %]&page=[% page - 1 %]">Previous &lt;&lt;</a>
+	[% END %]
+
+	[% WHILE pageIndex <= endPage %]
+	  [% IF pageIndex == currentPage %]
+		<strong>[% pageIndex %]</strong>
+	  [% ELSE %]
+		<a href="search?q=[% query %]&page=[% pageIndex %]">[% pageIndex %]</a>
+	  [% END %]
+	  [% pageIndex = pageIndex + 1 %]
+	[% END %]
+
+	[% IF lastPage == "T" %]
+	  <a class="next" href="search?q=[% query %]&page=[% page + 1 %]">Next &gt;&gt;</a>
+	[% END %]
+  </div>
+
+[% END %]

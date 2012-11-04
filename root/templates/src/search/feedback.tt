@@ -1,0 +1,37 @@
+<div class="feedback">
+  [% IF page == 1 %]
+	[%
+	start = 1
+	total = hitCount
+	%]
+
+	[% IF hitCount < documentsPerPage %]
+	  [% start = hitCount %]
+	[% ELSE %]
+	  [% start = documentsPerPage %]
+	[% END %]
+	<b>[% start %]</b> results of <b>[% total %]</b>.
+  [% END %]
+
+  [% IF page != 1 %]
+	[%
+	start = 1
+	end   = 1
+	total = hitCount
+	%]
+
+	[% IF hitCount < documentsPerPage %]
+	  [% start = hitCount %]
+	[% ELSE %]
+	  [% start = (documentsPerPage * (page - 1)) + 1 %]
+	[% END %]
+
+	[% IF hitCount < (documentsPerPage * (page - 1)) + documentsPerPage %]
+	  [% end = hitCount %]
+	[% ELSE %]
+	  [% end = (documentsPerPage * (page - 1)) + documentsPerPage %]
+	[% END %]
+
+	<b>[% start %] - [% end %]</b> results of <b>[% total %]</b>.
+  [% END %]
+</div>

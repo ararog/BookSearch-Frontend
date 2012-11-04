@@ -1,0 +1,19 @@
+<html>
+  <head>
+	<title>[% template.title %]</title>
+
+	[% INCLUDE stylesheet %]
+  </head>
+  <body>
+	<div id="head">
+	  <div class="search">
+		<form method="get">
+		  <label class="label"  for="q">Search for: </label>
+		  <input class="input"  type="text" name="q" value="[% c.request.query_parameters.q %]" />
+		  <input class="button" type="submit" value="Search"/>
+		</form>
+	  </div>
+	</div>
+	[% INCLUDE content %]
+  </body>
+</html>

@@ -1,0 +1,75 @@
+body {
+  font: 13px/1.231 arial,helvetica,clean,sans-serif;
+}
+
+#head {
+  width: 780px;
+}
+
+.search {
+  font-size: 16pt;
+  text-align: center;
+}
+
+.search .input {
+  font-size: 16pt;
+}
+
+.search .button {
+  font-size: 16pt;
+}
+
+.main {
+  height: 100%;
+  width: 780px;
+}
+
+.facets {
+  background: white;
+  border-left: 1px solid white;
+  border-right: 1px solid #DBDFE3;
+  font-size: 12px;
+  height: 100%;
+  width: 190px;
+  _height: 9999px;
+  z-index: 3;
+  float:left;
+}
+
+.results {
+  width: 560px;
+  float:left;
+  margin-left: 30px;
+}
+
+.results .feedback {
+  float: right;
+}
+
+.results .hits {
+  margin-top: 30px;
+}
+
+.paginator {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.paginator a, .paginator strong {
+  border: 1px solid #CCDBE4;
+  display: block;
+  color: #3666D4;
+  float: left;
+  margin: 0 5px 0 0;
+  padding: 2px 8px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.paginator strong {
+  border: 0;
+  color: black;
+  font-size: 108%;
+  font-weight: bold;
+  padding: 2px 6px;
+}

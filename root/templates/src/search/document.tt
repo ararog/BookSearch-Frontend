@@ -1,0 +1,13 @@
+<div class="document">
+  <a class="link" href="[% doc.url %]">[% doc.title %]</a>
+  <br/>
+  <span class="fragment">
+	[% FOREACH fragment IN doc.content %]
+	  [% fragment %] 
+	[% END %]
+  </span>
+  <br/>
+  <span class="field">Date:</span>[% doc.date %] 
+  <br/>
+  <span class="field">Author:</span>[% doc.author %]  
+</div>
