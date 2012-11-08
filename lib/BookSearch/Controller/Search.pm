@@ -2,7 +2,9 @@ package BookSearch::Controller::Search;
 use Moose;
 use namespace::autoclean;
 use ElasticSearch;
+use ElasticSearch::SearchBuilder;
 use Data::Dumper;
+use POSIX;
 
 BEGIN { extends 'Catalyst::Controller'; }
 
@@ -39,6 +41,10 @@ sub execute :Path :Args(0) {
 
   my $query = $c->request->query_parameters->{q};
   my $page  = $c->request->query_parameters->{page};
+  
+  my %facet = ();
+  $facet{"name"}  = $c->request->query_parameters->{"facet.name"};
+  $facet{"value"} = $c->request->query_parameters->{"facet.value"};
 
   my $es = ElasticSearch->new(
     servers => 'localhost:9200',
@@ -49,16 +55,21 @@ sub execute :Path :Args(0) {
 	$page = 1;
   }
 
+  
+  my %filters = ();
+  if($facet{"name"} ne "") {
+	$filters{$facet{"name"}} = $facet{"value"};
+  }
+
   my $results = $es->search(
-	index => "booksearch",    
-	type  => "doc",
-	query => {
-	  text => { 
-		content => $query
-	  }
+	index  => "booksearch",    
+	type   => "doc",
+	queryb => {
+	  content => $query,
+	  -filter => \%filters
 	},
-	from  => $page * 10,
-	size  => 10,
+	from   => ($page - 1) * 10,
+	size   => 10,
 	fields => ['url', 'title', 'author', 'date', 'type'],
 	highlight => {
 	  fields => {
@@ -71,7 +82,8 @@ sub execute :Path :Args(0) {
 	facets => {
 	  author => { 
 		terms => {
-		  field => "author"
+		  field => "author",
+		  size => 10
 		} 
 	  }
 	}
@@ -86,20 +98,23 @@ sub execute :Path :Args(0) {
 		$title = "No title";
 	  }
 
+	  my $author = $r->{'author'};
+	  if ($author eq "") {
+		$author = "No author";
+	  }
+
 	  push @results, {
 		  url     => $r->{'url'},
 		  title   => $title,
-		  author  => $r->{'author'},
+		  author  => $author,
 		  date    => $r->{'date'},
 		  content => $result->{'highlight'}{'content'},
 	  };
   }
 
-  # $c->log->debug("\$var is: ".Dumper($c->stash->{results}));
-
   my $hitCount = $results->{'hits'}{'total'};
 
-  my $numberOfPages = int($hitCount / 10);
+  my $numberOfPages = ceil($hitCount / 10);
 
   $c->stash->{template} = 'search/search_results.tt';
   $c->stash->{results} = \@results;

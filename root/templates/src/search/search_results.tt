@@ -13,7 +13,6 @@
 		  name = 'author',
 		  title = 'Filter by author'
 		  source = facets.author,
-		  page = page,
 		  query = c.request.query_parameters.q 
 	  %]
 	</div>

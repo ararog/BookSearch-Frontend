@@ -4,7 +4,7 @@
 	  [% title %]
 	</div>
 	[% FOREACH facetTerm IN source.terms %]
-	  <a href="#">[% facetTerm.term %]</a>
+	  <a href="search?q=[% query %]&facet.name=[% name %]&facet.value=[% facetTerm.term %]">[% facetTerm.term %]</a> ([% facetTerm.count %])
 	  <br/>
 	[% END %]  
   </div>
